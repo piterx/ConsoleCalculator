@@ -1,0 +1,158 @@
+Console Calculator project by Piotr Golacki January 2021
+
+DOCUMENTATION
+I. Introduction
+Console Calculator is a simple command line calculator.
+Four basic operators are supported i.e. +,-,* and / which correspond to addition, subtraction, multiplication and floating-point division.
+The programme supports negative numbers. Parentheses are not supported.
+Neither integer division nor modulo division are supported.
+
+The input format is <number1><operator1><number2><operator2><number3>....<numberN-1><operatorN-1><numberN>
+
+
+
+
+II. Behaviour overview
+
+The behaviour of the main program can be summarised as follows:
+1. Display Welcome message
+2. Display prompt message and wait for the user input
+3. Check if the input is valid, if not display a message to the user and go back to step 2. if q or Q is pressed quit the programme.
+4. Perform calculation
+5. Display the result and go back to the step 2.
+
+Calculation is performed as follows:
+
+1. Prepare valid string input i.e. remove whitespaces, reduce redundant operators (i.e. "--" and "+-" to "+" and "-" respectively)
+2. Convert to tokens in string format (floating point number and operators)
+3. Determine if "-" means subtraction or negation and convert it to unambiguous format (i.e. descriptive string such as "Subtraction","Addition","Negation" etc.)
+4. Convert infix notation to postfix notation using a Shunting-Yard algorithm
+5. Calculate the values using a stack to store the last calculation result
+
+
+
+
+III. Source files
+
+The solution is divided into two projects:
+
+a)ConsoleCalculator which contains all the source code for the main application. It contains following files:
+1. Program.cs - contains main program and has two methods main() with the main program and Calculate() which encapsulates all the calls to the Utilities class methods
+2. Utilities.cs - contains all the utility methods and fields required along 
+
+b)ConsoleCalculatorTests which contains all the unit tests written for the project. It contains following files:
+1. ProgramTests.cs - contains the tests for the main programme. In other words it tests Calculate() method
+2. UtilitiesTests.cs - contains the tests for the main programme
+
+
+
+
+IV. Classes and methods ConsoleCalculator
+
+Note: ConsoleCalculator namespace is used 
+
+A. Program class
+
+1. Calculate()
+public static Double Calculate(String userInput)
+encapsulates all the calls to the Utilities class methods
+
+2.Main
+static void Main(string[] args)
+main program
+
+B. Utilities class
+
+1.ConvertToPostfix()
+
+    public static Queue<String> ConvertToPostfix(List<String> infixExpression)
+       
+Converts equation in infix notation to postfix notation.
+It uses simplified shunting yard algorithm without support for parenthesis or exponentiation
+Left associativity is assumed
+As exponentiation is not supported, care would need to be taken in case of implementing exponentiation
+and proper support for unary operators such as negation would be required
+
+
+2.  ConvertToTokens()
+
+        public static List<String> ConvertToTokens(String inputString)
+
+Converts input string to tokens in the format of floating point numbers and following operators: +,-/,*
+No distinction is made at this stage between unary and binary "-" operators
+
+
+3. DetermineOperators()
+
+        public static List<String> DetermineOperators(List<String> inputListOfTokens)
+       
+Determines the operators in an unambiguous way, this is required to ensure correct handling of negative numbers.
+The required input is List of strings where a string is either a number or an operator in an alternate fashion.
+Unary negation is an operator and is not a part of number as far as DetermineOperators() method is concerned
+prefered use with conjunction with ConvertToToken() method
+
+
+4. DisplayPromptMsg()
+
+        public static void DisplayPromptMsg()
+
+displays prompt message
+
+
+5. DisplayWelcomeMsg()
+
+        public static void DisplayWelcomeMsg()
+       
+Displays welcome message
+
+
+6. GetOperatorPrecedence()
+
+        public static Int32 GetOperatorPrecedence(String operatorString)
+       
+Returns the precedences for operators stored as strings.
+The higher the precedence number the higher operator precedence.
+
+
+7. IsStrinRightFormat()
+
+        public static Boolean IsStrinRightFormat(String inputString)
+
+Checks if user input is valid
+Whitespaces are allowed, negative numbers are allowed, parentheses are not allowed,
+Only +,-*,/ operators are allowed, full decimal number allowed i.e. .2+.3 input is not allowed
+
+
+8. PostfixCalculator()
+
+        public static Double PostfixCalculator(Queue<String> postFixExpression)
+
+Posfix(or Reverse Polish Notation) calculator. It uses stack to store values of the operations
+Only basic arithmetic operators are supported i.e.: +,-,*,/
+Operands described as following strings: Addition, Subtraction, Multiplication and Division
+Input Expression stored as a queue of strings
+
+
+9. ReduceOperators()
+
+        public static String ReduceOperators(String inputString)
+
+Reduces "--" and "+-" to "+" and "-" respectively    
+
+
+10. RemoveWhitespaces()
+
+        public static String RemoveWhitespaces(String inputString)
+       
+Removes whitespaces from the input string
+
+
+11. TwoOperandCalculator()
+
+        public static Double TwoOperandCalculator(Double firstOperand, Double secondOperand, String operatorToken)
+
+simple two operand calculator designed to use with PostfixCalculator()
+operatorToken is one of the following strings:
+Addition, Subtraction, Multiplication, Division
+
+
