@@ -179,10 +179,14 @@ namespace ConsoleCalculator
 
         }
 
+        /*
+        @brief Returns the precedences for operators stored as strings. The higher the precedence number the higher operator precedence.
+        @param operatorString - "Multiplication", "Division", "Addition", "Subtraction"
+        @return precedence from 0 to 2
+         */
         public static Int32 GetOperatorPrecedence(String operatorString)
         {
-            //Returns the precedences for operators stored as strings
-            // the higher the precedence number the higher operator precedence
+            
             Int32 precedence = 0;
             if (operatorString == "Multiplication" || operatorString == "Division")
             {
