@@ -1,6 +1,9 @@
 Console Calculator project by Piotr Golacki January 2021
 
 Console Calculator is a simple command line calculator.
+The programme demonstrates the use of shunting yard algorithm and explores use of regular expressions to validate the input.
+It is a learning project, NOT a production code.
+
 Four basic operators are supported i.e. +,-,* and / which correspond to addition, subtraction, multiplication and floating-point division.
 The programme supports negative numbers. Parentheses are not supported.
 Neither integer division nor modulo division are supported.
